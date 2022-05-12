@@ -22,11 +22,11 @@ const auth = async (req, res, next) => {
         if (token && isCustomAuth){   //if we have token and is custom, set decodedData to be equal to jwt.verify, gives usernmae and ID
             decodedData = jwt.verify(token, 'test'); //Pass the token and secret, secret must be same as the original token
 
-            req.userID = decodedData?.id; // Custom Auth: Now that we have that decodedData we know which user is logged in and which user is liking, deleting posts...? for optional chaining
+            req.userId = decodedData?.id; // Custom Auth: Now that we have that decodedData we know which user is logged in and which user is liking, deleting posts...? for optional chaining
         } else {
             decodedData = jwt.decode(token) //Google Auth
 
-            req.userID = decodedData?.sub; //sub is just an ID that differentiates every other google users
+            req.userId = decodedData?.sub; //sub is just an ID that differentiates every other google users
         }
 
         next();

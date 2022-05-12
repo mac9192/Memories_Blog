@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
+import decode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
@@ -24,7 +25,13 @@ const Navbar = () => {
 
     useEffect(() => {
         const token = user?.token; //if token exists, 
-         // JWT ...
+        
+        
+      if(token) {
+        const decodedToken = decode(token);
+
+        if(decodedToken.exp * 1000 < new Date().getTime()) logout()
+      }
 
         setUser(JSON.parse(localStorage.getItem('profile'))) //set user to the token
         }, [location] ); //when location changes, simply set the user.
